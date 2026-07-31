@@ -1,0 +1,313 @@
+{
+  "schema_version": "1.0.0",
+  "model_version": "mvp-rule-v1",
+  "data_mode": "fixture",
+  "generated_at_utc": "2026-07-31T15:53:25.780561Z",
+  "horizon_months": 12,
+  "score": 85,
+  "phase": "ریسک بسیار بالا / تنش اقتصادی",
+  "state": "re_steepening",
+  "score_change_7d": 0,
+  "confidence": "high",
+  "explanation_fa": "بر اساس میانگین پنج مشاهده، بازگشت از وارونگی ثبت شده است. این عدد شدت سیگنال است، نه احتمال قطعی رکود.",
+  "latest_observation": {
+    "series_id": "T10Y2Y",
+    "date": "2021-01-20",
+    "value": 0.5,
+    "unit": "Percent",
+    "source_url": "https://fred.stlouisfed.org/series/T10Y2Y"
+  },
+  "drivers": [
+    {
+      "title_fa": "میانگین پنج مشاهده",
+      "value": "0.50٪",
+      "detail_fa": "نوسان روزانه با میانگین پنج مشاهده هموار شده است."
+    },
+    {
+      "title_fa": "رژیم منحنی بازده",
+      "value": "بازگشت از وارونگی ثبت شده است",
+      "detail_fa": "پس از وارونگی پایدار، منحنی دوباره مثبت شده است."
+    },
+    {
+      "title_fa": "کیفیت و تازگی",
+      "value": "بالا",
+      "detail_fa": "تازگی فقط کیفیت داده را نشان می‌دهد، نه قطعیت پیش‌بینی را."
+    }
+  ],
+  "spread_history": [
+    {
+      "date": "2020-12-17",
+      "value": 0.6,
+      "moving_average_5d": null,
+      "state": "insufficient_data",
+      "score": null
+    },
+    {
+      "date": "2020-12-18",
+      "value": 0.55,
+      "moving_average_5d": null,
+      "state": "insufficient_data",
+      "score": null
+    },
+    {
+      "date": "2020-12-20",
+      "value": 0.5,
+      "moving_average_5d": null,
+      "state": "insufficient_data",
+      "score": null
+    },
+    {
+      "date": "2020-12-21",
+      "value": 0.45,
+      "moving_average_5d": null,
+      "state": "insufficient_data",
+      "score": null
+    },
+    {
+      "date": "2020-12-22",
+      "value": 0.4,
+      "moving_average_5d": 0.5,
+      "state": "normal",
+      "score": 15
+    },
+    {
+      "date": "2020-12-23",
+      "value": -0.5,
+      "moving_average_5d": 0.28,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2020-12-24",
+      "value": -0.5,
+      "moving_average_5d": 0.07,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2020-12-25",
+      "value": -0.5,
+      "moving_average_5d": -0.13,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2020-12-26",
+      "value": -0.5,
+      "moving_average_5d": -0.32,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2020-12-27",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2020-12-28",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2020-12-29",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2020-12-30",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2020-12-31",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-01",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-02",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-03",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-04",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-05",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-06",
+      "value": -0.5,
+      "moving_average_5d": -0.5,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-07",
+      "value": 0.5,
+      "moving_average_5d": -0.3,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-08",
+      "value": 0.5,
+      "moving_average_5d": -0.1,
+      "state": "inverted",
+      "score": 70
+    },
+    {
+      "date": "2021-01-09",
+      "value": 0.5,
+      "moving_average_5d": 0.1,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2021-01-10",
+      "value": 0.5,
+      "moving_average_5d": 0.3,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2021-01-11",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "normal",
+      "score": 15
+    },
+    {
+      "date": "2021-01-12",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "normal",
+      "score": 15
+    },
+    {
+      "date": "2021-01-13",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "re_steepening",
+      "score": 85
+    },
+    {
+      "date": "2021-01-14",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "re_steepening",
+      "score": 85
+    },
+    {
+      "date": "2021-01-15",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "re_steepening",
+      "score": 85
+    },
+    {
+      "date": "2021-01-16",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "re_steepening",
+      "score": 85
+    },
+    {
+      "date": "2021-01-17",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "re_steepening",
+      "score": 85
+    },
+    {
+      "date": "2021-01-18",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "re_steepening",
+      "score": 85
+    },
+    {
+      "date": "2021-01-19",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "re_steepening",
+      "score": 85
+    },
+    {
+      "date": "2021-01-20",
+      "value": 0.5,
+      "moving_average_5d": 0.5,
+      "state": "re_steepening",
+      "score": 85
+    }
+  ],
+  "recession_periods": [
+    {
+      "start": "2020-03-01",
+      "end": "2020-04-01"
+    },
+    {
+      "start": "2021-06-01",
+      "end": "2021-06-01"
+    }
+  ],
+  "backtest": {
+    "inversion_events": 1,
+    "re_steepening_events": 1,
+    "recession_starts": 2,
+    "matched_signals": 1,
+    "false_alarms": 0,
+    "precision": 1.0,
+    "recall": 0.5,
+    "false_alarm_rate": 0.0,
+    "median_lead_months": 4.57,
+    "note_fa": "این بک‌تست توصیفی، تک‌شاخصی و مبتنی بر داده‌های بازنگری‌شده است؛ نتایج آن تضمین عملکرد آینده نیست."
+  },
+  "sources": [
+    {
+      "series_id": "T10Y2Y",
+      "title": "10-Year Treasury Constant Maturity Minus 2-Year Treasury Constant Maturity",
+      "url": "https://fred.stlouisfed.org/series/T10Y2Y",
+      "fetched_at_utc": "2021-01-20T18:00:00Z"
+    },
+    {
+      "series_id": "USREC",
+      "title": "NBER based Recession Indicators for the United States",
+      "url": "https://fred.stlouisfed.org/series/USREC",
+      "fetched_at_utc": "2021-01-20T18:00:00Z"
+    }
+  ]
+}

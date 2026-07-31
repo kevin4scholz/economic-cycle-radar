@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "economic-cycle-radar"
+version = "0.1.0"
+description = "Explainable Persian dashboard for US economic cycle signals"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "httpx==0.28.1",
+  "pandas==3.0.1",
+  "pydantic==2.13.4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.1.1",
+  "ruff==0.16.1",
+]
+
+[project.scripts]
+cycle-radar = "economic_cycle_radar.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/economic_cycle_radar"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
