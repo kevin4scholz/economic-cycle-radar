@@ -136,6 +136,7 @@ nav a:hover, nav a:focus-visible { color: #fff; }
 
 .disclaimer { display: grid; grid-template-columns: 180px 1fr; align-items: center; padding: 26px 30px; border: 1px solid #5f4930; border-radius: 15px; background: #35261624; margin-bottom: 60px; }
 .disclaimer strong { color: #ffd292; }
+.disclaimer div { display: grid; gap: 8px; }
 .disclaimer p { color: #b9aa95; font-size: 12px; line-height: 1.8; margin: 0; }
 footer { min-height: 90px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #183047; color: #748ba0; font-size: 10px; }
 
@@ -184,4 +185,3 @@ footer { min-height: 90px; display: flex; justify-content: space-between; align-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
-

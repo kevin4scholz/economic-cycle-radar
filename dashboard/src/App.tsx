@@ -303,7 +303,11 @@ function App() {
         </section>
 
         <section className="disclaimer" aria-label="سلب مسئولیت">
-          <strong>یادآوری مهم</strong><p>این داشبورد ابزار آموزشی و تصمیم‌یار است؛ توصیه‌ی سرمایه‌گذاری، تضمین سود یا پیش‌بینی قطعی تاریخ رکود نیست.</p>
+          <strong>یادآوری مهم</strong>
+          <div>
+            <p>این داشبورد ابزار آموزشی و تصمیم‌یار است؛ توصیه‌ی سرمایه‌گذاری، تضمین سود یا پیش‌بینی قطعی تاریخ رکود نیست.</p>
+            <p lang="en" dir="ltr">This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.</p>
+          </div>
         </section>
       </main>
 
@@ -313,4 +317,3 @@ function App() {
 }
 
 export default App
-
