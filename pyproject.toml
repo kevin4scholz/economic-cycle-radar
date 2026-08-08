@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "economic-cycle-radar"
 version = "0.1.0"
-description = "Explainable Persian dashboard for US economic cycle signals"
+description = "Explainable English dashboard for US economic cycle signals"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

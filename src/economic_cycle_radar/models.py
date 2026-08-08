@@ -58,9 +58,9 @@ class LatestObservation(BaseModel):
 
 
 class Driver(BaseModel):
-    title_fa: str
+    title_en: str
     value: str
-    detail_fa: str
+    detail_en: str
 
 
 class SourceInfo(BaseModel):
@@ -85,11 +85,11 @@ class BacktestReport(BaseModel):
     recall: float | None
     false_alarm_rate: float | None
     median_lead_months: float | None
-    note_fa: str
+    note_en: str
 
 
 class DashboardPayload(BaseModel):
-    schema_version: Literal["1.0.0"] = "1.0.0"
+    schema_version: Literal["2.0.0"] = "2.0.0"
     model_version: Literal["mvp-rule-v1"] = "mvp-rule-v1"
     data_mode: Literal["live", "fixture"]
     generated_at_utc: datetime
@@ -99,11 +99,10 @@ class DashboardPayload(BaseModel):
     state: SignalState
     score_change_7d: int | None
     confidence: Literal["high", "medium", "unavailable"]
-    explanation_fa: str
+    explanation_en: str
     latest_observation: LatestObservation | None
     drivers: list[Driver] = Field(max_length=3)
     spread_history: list[SignalPoint]
     recession_periods: list[RecessionPeriod]
     backtest: BacktestReport
     sources: list[SourceInfo]
-

@@ -21,9 +21,9 @@ export interface RecessionPeriod {
 }
 
 export interface Driver {
-  title_fa: string
+  title_en: string
   value: string
-  detail_fa: string
+  detail_en: string
 }
 
 export interface BacktestReport {
@@ -36,7 +36,7 @@ export interface BacktestReport {
   recall: number | null
   false_alarm_rate: number | null
   median_lead_months: number | null
-  note_fa: string
+  note_en: string
 }
 
 export interface DashboardData {
@@ -50,7 +50,7 @@ export interface DashboardData {
   state: SignalState
   score_change_7d: number | null
   confidence: 'high' | 'medium' | 'unavailable'
-  explanation_fa: string
+  explanation_en: string
   latest_observation: {
     series_id: string
     date: string
@@ -69,4 +69,3 @@ export interface DashboardData {
     fetched_at_utc: string
   }>
 }
-

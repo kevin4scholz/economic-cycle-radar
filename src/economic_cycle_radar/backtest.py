@@ -69,9 +69,8 @@ def build_backtest_report(
         recall=None if recall is None else round(recall, 4),
         false_alarm_rate=None if false_alarm_rate is None else round(false_alarm_rate, 4),
         median_lead_months=None if not lead_months else round(median(lead_months), 2),
-        note_fa=(
-            "این بک‌تست توصیفی، تک‌شاخصی و مبتنی بر داده‌های بازنگری‌شده است؛ "
-            "نتایج آن تضمین عملکرد آینده نیست."
+        note_en=(
+            "This descriptive backtest uses one indicator and currently revised data. "
+            "Its results do not guarantee future performance."
         ),
     )
-

@@ -10,7 +10,7 @@ from .pipeline import run_pipeline
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="ساخت داده‌ی داشبورد رادار چرخه اقتصاد")
+    parser = argparse.ArgumentParser(description="Build Economic Cycle Radar dashboard data")
     parser.add_argument(
         "--output",
         type=Path,
@@ -22,7 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--as-of",
         type=date.fromisoformat,
         default=datetime.now(UTC).date(),
-        help="تاریخ ارزیابی به قالب YYYY-MM-DD",
+        help="Evaluation date in YYYY-MM-DD format",
     )
     return parser
 
@@ -39,11 +39,11 @@ def main() -> int:
             as_of_date=args.as_of,
         )
     except (FredError, OSError, ValueError) as exc:
-        print(f"خطا: {exc}")
+        print(f"Error: {exc}")
         return 2
     print(
-        f"خروجی ساخته شد: {args.output} | حالت={payload.data_mode} | "
-        f"وضعیت={payload.state} | امتیاز={payload.score}"
+        f"Output created: {args.output} | mode={payload.data_mode} | "
+        f"state={payload.state} | score={payload.score}"
     )
     return 0
 
