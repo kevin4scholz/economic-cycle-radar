@@ -1,45 +1,46 @@
-# روش‌شناسی MVP
+# MVP methodology
 
-## پرسش محصول
+## Product question
 
-امتیاز داشبورد شدت سیگنال منحنی بازده برای ریسک رکود در افق ۱۲ ماه را نشان می‌دهد. این امتیاز یک احتمال آماری کالیبره‌شده نیست.
+The dashboard measures the intensity of a yield-curve signal associated with US recession risk over a 12-month horizon. The score is rule-based and is not a calibrated statistical probability.
 
-## داده‌ها
+## Data
 
-- [`T10Y2Y`](https://fred.stlouisfed.org/series/T10Y2Y): بازده ثابت‌سررسید خزانه‌داری ۱۰ساله منهای ۲ساله؛ روزانه و تعدیل‌نشده فصلی.
-- [`USREC`](https://fred.stlouisfed.org/series/USREC): شاخص ماهانه‌ی دوره‌های رکود آمریکا؛ فقط برای سایه‌ی نمودار و ارزیابی تاریخی.
+- [`T10Y2Y`](https://fred.stlouisfed.org/series/T10Y2Y): 10-Year Treasury Constant Maturity Minus 2-Year Treasury Constant Maturity; daily and not seasonally adjusted.
+- [`USREC`](https://fred.stlouisfed.org/series/USREC): monthly NBER-based US recession indicator; used only for chart shading and historical evaluation.
 
-مقدار مفقود FRED یعنی `.` به `null` تبدیل می‌شود و هرگز صفر فرض نمی‌شود. تاریخ مشاهده بدون تبدیل منطقه‌ی زمانی حفظ و زمان دریافت با UTC ثبت می‌شود.
+FRED's missing value marker (`.`) becomes `null` and is never treated as zero. Observation dates remain timezone-free; fetch and generation timestamps use UTC.
 
-## مدل `mvp-rule-v1`
+## `mvp-rule-v1`
 
-ابتدا میانگین پنج مشاهده‌ی معتبر اخیر `T10Y2Y` محاسبه می‌شود:
+The model first calculates the average of the five most recent valid `T10Y2Y` observations:
 
-| وضعیت | شرط | امتیاز |
+| State | Rule | Score |
 |---|---|---:|
-| `normal` | میانگین حداقل ۰٫۵۰ | ۱۵ |
-| `flattening` | میانگین از صفر تا کمتر از ۰٫۵۰ | ۴۰ |
-| `inverted` | میانگین کمتر از صفر | ۷۰ |
-| `re_steepening` | بعد از ۱۰ میانگین منفی متوالی، ۵ میانگین غیرمنفی متوالی | ۸۵ |
+| `normal` | Average is at least `0.50` | 15 |
+| `flattening` | Average is from `0` to below `0.50` | 40 |
+| `inverted` | Average is below `0` | 70 |
+| `re_steepening` | Five consecutive non-negative averages after at least ten consecutive negative averages | 85 |
 
-رژیم `re_steepening` حداکثر ۱۲ ماه ادامه دارد و وارونگی تازه آن را قطع می‌کند. تا پیش از پنج مشاهده‌ی معتبر، امتیازی ساخته نمی‌شود.
+The `re_steepening` regime lasts for at most 12 months and ends early if a new inversion occurs. No score is produced until five valid observations exist.
 
-## تازگی و اطمینان داده
+## Freshness and confidence
 
-- `high`: فاصله‌ی آخرین مشاهده تا تاریخ ارزیابی حداکثر ۵ روز تقویمی.
-- `medium`: ۶ تا ۱۰ روز.
-- `unavailable`: بیشتر از ۱۰ روز یا تاریخ نامعتبر؛ امتیاز فعلی `null` می‌شود.
+- `high`: latest observation is no more than 5 calendar days old.
+- `medium`: latest observation is 6–10 calendar days old.
+- `unavailable`: latest observation is more than 10 days old or has an invalid future date; the current score becomes `null`.
 
-این قاعده برای اطلاع‌رسانی است و تعطیلات بازار را به مقدار صفر تبدیل نمی‌کند.
+Freshness describes data quality. It does not measure forecast certainty, and market holidays are never converted into zero-valued observations.
 
-## بک‌تست
+## Backtest
 
-بک‌تست گذار به وارونگی و `re_steepening`، فاصله تا شروع بعدی `USREC`، precision، recall، false-alarm rate و median lead time را گزارش می‌کند. این گزارش توصیفی است؛ به دلیل تک‌شاخص‌بودن مدل و استفاده از داده‌های بازنگری‌شده‌ی امروز، نتیجه نباید به‌عنوان عملکرد زنده یا تضمین آینده تفسیر شود. استفاده از ALFRED/vintage data برای نسخه‌ی پژوهشی بعدی لازم است.
+The initial backtest reports transitions into inversion and re-steepening, time to the next `USREC` start, precision, recall, false-alarm rate, and median lead time. It is descriptive because the model uses one indicator and currently revised data. The results must not be interpreted as live performance or a guarantee.
 
-## محدودیت‌ها
+A future research version should use ALFRED vintage data to reduce look-ahead and revision bias.
 
-- منحنی بازده می‌تواند هشدار کاذب بدهد یا زمان‌بندی طولانی و متغیر داشته باشد.
-- `USREC` برچسب هم‌زمان و فوری نیست.
-- بازار کار، اعتبار، تورم و فعالیت واقعی هنوز وارد امتیاز نشده‌اند.
-- تحلیل فیبوناچی، تاریخ دقیق سقوط و توصیه‌ی مالی خارج از محدوده‌اند.
+## Limitations
 
+- The yield curve can produce false warnings and variable lead times.
+- `USREC` is not a real-time recession label.
+- Labor, credit, inflation, and real-activity indicators are not yet part of the score.
+- Fibonacci analysis, exact crash dates, automated trading, and personalized financial advice are out of scope.

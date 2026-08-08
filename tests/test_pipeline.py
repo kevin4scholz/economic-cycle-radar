@@ -20,10 +20,12 @@ def test_pipeline_writes_valid_fixture_payload(tmp_path: Path):
 
     saved = json.loads(output.read_text(encoding="utf-8"))
     assert payload.data_mode == "fixture"
-    assert saved["schema_version"] == "1.0.0"
+    assert saved["schema_version"] == "2.0.0"
     assert saved["state"] == "re_steepening"
     assert saved["score"] == 85
     assert len(saved["drivers"]) == 3
+    assert saved["drivers"][0]["title_en"] == "Five-observation average"
+    assert "explanation_en" in saved
     assert saved["recession_periods"][0] == {
         "start": "2020-03-01",
         "end": "2020-04-01",
@@ -39,4 +41,3 @@ def test_missing_key_does_not_overwrite_previous_output(tmp_path: Path, monkeypa
         run_pipeline(output_path=output, as_of_date=date(2026, 7, 31))
 
     assert output.read_text(encoding="utf-8") == '{"safe": true}'
-

@@ -1,37 +1,37 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "model_version": "mvp-rule-v1",
   "data_mode": "live",
-  "generated_at_utc": "2026-07-31T17:17:15.147290Z",
+  "generated_at_utc": "2026-08-08T13:03:48.956158Z",
   "horizon_months": 12,
   "score": 40,
-  "phase": "رشد با نشانه‌های کندشدن",
+  "phase": "Growth with signs of slowing",
   "state": "flattening",
   "score_change_7d": 0,
   "confidence": "high",
-  "explanation_fa": "بر اساس میانگین پنج مشاهده، منحنی در حال تخت‌شدن است. این عدد شدت سیگنال است، نه احتمال قطعی رکود.",
+  "explanation_en": "Based on the five-observation average, the yield curve is flattening. This score measures signal intensity; it is not a certain recession probability.",
   "latest_observation": {
     "series_id": "T10Y2Y",
-    "date": "2026-07-30",
-    "value": 0.45,
+    "date": "2026-08-07",
+    "value": 0.46,
     "unit": "Percent",
     "source_url": "https://fred.stlouisfed.org/series/T10Y2Y"
   },
   "drivers": [
     {
-      "title_fa": "میانگین پنج مشاهده",
-      "value": "0.39٪",
-      "detail_fa": "نوسان روزانه با میانگین پنج مشاهده هموار شده است."
+      "title_en": "Five-observation average",
+      "value": "0.45%",
+      "detail_en": "Daily volatility is smoothed with the five most recent valid observations."
     },
     {
-      "title_fa": "رژیم منحنی بازده",
-      "value": "منحنی در حال تخت‌شدن است",
-      "detail_fa": "فاصله مثبت اما کمتر از ۰٫۵ است و باید روند آن پایش شود."
+      "title_en": "Yield-curve regime",
+      "value": "the yield curve is flattening",
+      "detail_en": "The spread is positive but below 0.50 and should be monitored."
     },
     {
-      "title_fa": "کیفیت و تازگی",
-      "value": "بالا",
-      "detail_fa": "تازگی فقط کیفیت داده را نشان می‌دهد، نه قطعیت پیش‌بینی را."
+      "title_en": "Quality and freshness",
+      "value": "High",
+      "detail_en": "Freshness describes data quality, not forecasting certainty."
     }
   ],
   "spread_history": [
@@ -87793,6 +87793,48 @@
       "moving_average_5d": 0.39,
       "state": "flattening",
       "score": 40
+    },
+    {
+      "date": "2026-07-31",
+      "value": 0.47,
+      "moving_average_5d": 0.412,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2026-08-03",
+      "value": 0.45,
+      "moving_average_5d": 0.434,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2026-08-04",
+      "value": 0.43,
+      "moving_average_5d": 0.45,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2026-08-05",
+      "value": 0.45,
+      "moving_average_5d": 0.45,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2026-08-06",
+      "value": 0.44,
+      "moving_average_5d": 0.448,
+      "state": "flattening",
+      "score": 40
+    },
+    {
+      "date": "2026-08-07",
+      "value": 0.46,
+      "moving_average_5d": 0.446,
+      "state": "flattening",
+      "score": 40
     }
   ],
   "recession_periods": [
@@ -87947,20 +87989,20 @@
     "recall": 0.0857,
     "false_alarm_rate": 0.6154,
     "median_lead_months": 6.64,
-    "note_fa": "این بک‌تست توصیفی، تک‌شاخصی و مبتنی بر داده‌های بازنگری‌شده است؛ نتایج آن تضمین عملکرد آینده نیست."
+    "note_en": "This descriptive backtest uses one indicator and currently revised data. Its results do not guarantee future performance."
   },
   "sources": [
     {
       "series_id": "T10Y2Y",
       "title": "10-Year Treasury Constant Maturity Minus 2-Year Treasury Constant Maturity",
       "url": "https://fred.stlouisfed.org/series/T10Y2Y",
-      "fetched_at_utc": "2026-07-31T17:17:12.531390Z"
+      "fetched_at_utc": "2026-08-08T13:03:42.992205Z"
     },
     {
       "series_id": "USREC",
       "title": "NBER based Recession Indicators for the United States from the Period following the Peak through the Trough",
       "url": "https://fred.stlouisfed.org/series/USREC",
-      "fetched_at_utc": "2026-07-31T17:17:15.147290Z"
+      "fetched_at_utc": "2026-08-08T13:03:48.955154Z"
     }
   ]
 }

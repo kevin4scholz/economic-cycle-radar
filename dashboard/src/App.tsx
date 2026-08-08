@@ -3,31 +3,31 @@ import ReactECharts from 'echarts-for-react'
 import type { DashboardData, SignalState } from './types'
 
 const STATE_LABELS: Record<SignalState, string> = {
-  insufficient_data: 'داده ناکافی',
-  normal: 'منحنی عادی',
-  flattening: 'تخت‌شدن منحنی',
-  inverted: 'وارونگی منحنی',
-  re_steepening: 'بازگشت از وارونگی',
-  data_stale: 'داده قدیمی',
-  fetch_failed: 'خطای دریافت',
+  insufficient_data: 'Insufficient data',
+  normal: 'Normal yield curve',
+  flattening: 'Flattening yield curve',
+  inverted: 'Inverted yield curve',
+  re_steepening: 'Re-steepening after inversion',
+  data_stale: 'Stale data',
+  fetch_failed: 'Data fetch failed',
 }
 
 const SCORE_ZONES = [
-  { range: '۰ تا ۲۰', label: 'ریسک پایین', className: 'zone-low' },
-  { range: '۲۱ تا ۴۰', label: 'کندشدن', className: 'zone-watch' },
-  { range: '۴۱ تا ۶۰', label: 'احتیاط', className: 'zone-caution' },
-  { range: '۶۱ تا ۸۰', label: 'هشدار', className: 'zone-warning' },
-  { range: '۸۱ تا ۱۰۰', label: 'تنش بالا', className: 'zone-high' },
+  { range: '0–20', label: 'Low risk', className: 'zone-low' },
+  { range: '21–40', label: 'Slowing', className: 'zone-watch' },
+  { range: '41–60', label: 'Caution', className: 'zone-caution' },
+  { range: '61–80', label: 'Warning', className: 'zone-warning' },
+  { range: '81–100', label: 'High stress', className: 'zone-high' },
 ]
 
-function toFaNumber(value: number | null, maximumFractionDigits = 2) {
+function formatNumber(value: number | null, maximumFractionDigits = 2) {
   if (value === null) return '—'
-  return new Intl.NumberFormat('fa-IR', { maximumFractionDigits }).format(value)
+  return new Intl.NumberFormat('en-US', { maximumFractionDigits }).format(value)
 }
 
-function toFaDate(value: string | null) {
+function formatDate(value: string | null) {
   if (!value) return '—'
-  return new Intl.DateTimeFormat('fa-IR', {
+  return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
@@ -36,7 +36,7 @@ function toFaDate(value: string | null) {
 }
 
 function confidenceLabel(value: DashboardData['confidence']) {
-  return { high: 'بالا', medium: 'متوسط', unavailable: 'ناموجود' }[value]
+  return { high: 'High', medium: 'Medium', unavailable: 'Unavailable' }[value]
 }
 
 function useDashboardData() {
@@ -53,7 +53,7 @@ function useDashboardData() {
       .then(setData)
       .catch((reason: unknown) => {
         if (reason instanceof DOMException && reason.name === 'AbortError') return
-        setError('داده‌ی داشبورد بارگذاری نشد. لطفاً ساخت خط داده را بررسی کنید.')
+        setError('The dashboard data could not be loaded. Check the data pipeline and try again.')
       })
     return () => controller.abort()
   }, [])
@@ -90,7 +90,7 @@ function Gauge({ score }: { score: number }) {
           },
           axisTick: { distance: -26, length: 5, lineStyle: { color: '#07111f', width: 1 } },
           splitLine: { distance: -28, length: 11, lineStyle: { color: '#dbe8f4', width: 2 } },
-          axisLabel: { distance: 28, color: '#9fb3c8', fontSize: 11 },
+          axisLabel: { distance: 28, color: '#9fb3c8', fontSize: 11, fontFamily: 'Manrope Variable' },
           anchor: { show: true, size: 14, itemStyle: { color: '#f7fafc', borderColor: '#07111f' } },
           title: { show: false },
           detail: {
@@ -99,7 +99,8 @@ function Gauge({ score }: { score: number }) {
             color: '#f7fafc',
             fontSize: 34,
             fontWeight: 800,
-            formatter: (value: number) => toFaNumber(value, 0),
+            fontFamily: 'Manrope Variable',
+            formatter: (value: number) => formatNumber(value, 0),
           },
           data: [{ value: score }],
         },
@@ -107,13 +108,13 @@ function Gauge({ score }: { score: number }) {
     }),
     [score],
   )
-  return <ReactECharts option={option} style={{ height: 300 }} aria-label={`امتیاز سیگنال ${score} از ۱۰۰`} />
+  return <ReactECharts option={option} style={{ height: 300 }} aria-label={`Signal score ${score} out of 100`} />
 }
 
 function HistoryChart({ data }: { data: DashboardData }) {
   const option = useMemo(() => {
     const recessionAreas = data.recession_periods.map((period) => [
-      { xAxis: period.start, name: 'رکود' },
+      { xAxis: period.start, name: 'Recession' },
       { xAxis: period.end },
     ])
     return {
@@ -122,7 +123,7 @@ function HistoryChart({ data }: { data: DashboardData }) {
       grid: { top: 28, right: 26, bottom: 54, left: 55 },
       tooltip: {
         trigger: 'axis',
-        valueFormatter: (value: number) => `${toFaNumber(value)}٪`,
+        valueFormatter: (value: number) => `${formatNumber(value)}%`,
       },
       dataZoom: [
         { type: 'inside', start: Math.max(0, 100 - (3650 / Math.max(data.spread_history.length, 1)) * 100), end: 100 },
@@ -137,7 +138,7 @@ function HistoryChart({ data }: { data: DashboardData }) {
       },
       yAxis: {
         type: 'value',
-        name: 'درصد',
+        name: 'Percent',
         nameTextStyle: { color: '#8ea3b8' },
         axisLabel: { color: '#8ea3b8' },
         splitLine: { lineStyle: { color: '#1b3045' } },
@@ -154,7 +155,7 @@ function HistoryChart({ data }: { data: DashboardData }) {
           markLine: {
             silent: true,
             symbol: 'none',
-            label: { formatter: 'خط صفر', color: '#b8c8d8' },
+            label: { formatter: 'Zero line', color: '#b8c8d8' },
             lineStyle: { color: '#dbe8f4', width: 1.5 },
             data: [{ yAxis: 0 }],
           },
@@ -169,7 +170,7 @@ function HistoryChart({ data }: { data: DashboardData }) {
     }
   }, [data])
 
-  return <ReactECharts option={option} style={{ height: 430 }} aria-label="نمودار تاریخی اختلاف بازده و دوره‌های رکود" />
+  return <ReactECharts option={option} style={{ height: 430 }} aria-label="Historical yield spread with recession periods" />
 }
 
 function Metric({ label, value, hint }: { label: string; value: string; hint?: string }) {
@@ -187,9 +188,9 @@ function App() {
 
   if (error) {
     return (
-      <main className="center-state" dir="rtl">
+      <main className="center-state" dir="ltr">
         <div className="status-icon" aria-hidden="true">!</div>
-        <h1>داده در دسترس نیست</h1>
+        <h1>Data unavailable</h1>
         <p>{error}</p>
       </main>
     )
@@ -197,9 +198,9 @@ function App() {
 
   if (!data) {
     return (
-      <main className="center-state" dir="rtl" aria-live="polite">
+      <main className="center-state" dir="ltr" aria-live="polite">
         <div className="loader" aria-hidden="true" />
-        <p>در حال آماده‌سازی رادار…</p>
+        <p>Preparing the radar…</p>
       </main>
     )
   }
@@ -208,76 +209,76 @@ function App() {
   return (
     <div className="app-shell">
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="رفتن به ابتدای صفحه">
+        <a className="brand" href="#top" aria-label="Go to the top of the page">
           <span className="brand-mark" aria-hidden="true">R</span>
-          <span><strong>رادار چرخه اقتصاد</strong><small>Economic Cycle Radar</small></span>
+          <span><strong>Economic Cycle Radar</strong><small>Explainable macro signals</small></span>
         </a>
-        <nav aria-label="ناوبری اصلی">
-          <a href="#signal">سیگنال</a>
-          <a href="#history">تاریخچه</a>
-          <a href="#method">روش‌شناسی</a>
+        <nav aria-label="Primary navigation">
+          <a href="#signal">Signal</a>
+          <a href="#history">History</a>
+          <a href="#method">Methodology</a>
         </nav>
-        <span className={`data-pill ${data.confidence}`}>کیفیت داده: {confidenceLabel(data.confidence)}</span>
+        <span className={`data-pill ${data.confidence}`}>Data quality: {confidenceLabel(data.confidence)}</span>
       </header>
 
       <main id="top">
         {data.data_mode === 'fixture' && (
           <div className="demo-banner" role="status">
-            نسخه‌ی آزمایشی با داده‌ی fixture — برای تحلیل واقعی، خط داده‌ی زنده را اجرا کنید.
+            Fixture preview — run the live data pipeline before using this dashboard for current analysis.
           </div>
         )}
 
         <section className="hero" id="signal">
           <div className="hero-copy">
-            <p className="eyebrow">پایش روزانه‌ی منحنی بازده آمریکا</p>
-            <h1>اقتصاد در کدام فاز قرار دارد؟</h1>
-            <p className="lead">یک سیگنال شفاف برای افق ۱۲ ماه؛ مبتنی بر داده‌ی رسمی و همراه با توضیح، نه پیش‌گویی.</p>
+            <p className="eyebrow">Daily US yield-curve monitor</p>
+            <h1>Where is the economy in the cycle?</h1>
+            <p className="lead">A transparent 12-month signal built from official data and clear rules—not a prediction.</p>
             <div className="signal-label">
               <span className={`state-dot state-${data.state}`} aria-hidden="true" />
-              <div><small>وضعیت فعلی</small><strong>{STATE_LABELS[data.state]}</strong></div>
+              <div><small>Current state</small><strong>{STATE_LABELS[data.state]}</strong></div>
             </div>
-            <p className="explanation">{data.explanation_fa}</p>
+            <p className="explanation">{data.explanation_en}</p>
           </div>
 
           <article className="gauge-card">
             <div className="card-heading">
-              <div><span>شدت سیگنال</span><small>از ۱۰۰ — احتمال قطعی نیست</small></div>
-              <span className="horizon">افق ۱۲ ماه</span>
+              <div><span>Signal intensity</span><small>Out of 100 — not a certain probability</small></div>
+              <span className="horizon">12-month horizon</span>
             </div>
             {data.score === null ? (
-              <div className="no-score"><strong>—</strong><span>امتیاز به‌علت نبود یا کهنگی داده نمایش داده نمی‌شود.</span></div>
+              <div className="no-score"><strong>—</strong><span>The score is withheld because data is missing or stale.</span></div>
             ) : <Gauge score={data.score} />}
-            <div className="gauge-footer"><strong>{data.phase}</strong><span>تغییر هفتگی: {change === null ? '—' : `${change > 0 ? '+' : ''}${toFaNumber(change, 0)}`}</span></div>
+            <div className="gauge-footer"><strong>{data.phase}</strong><span>7-day change: {change === null ? '—' : `${change > 0 ? '+' : ''}${formatNumber(change, 0)}`}</span></div>
           </article>
         </section>
 
-        <section className="metrics-grid" aria-label="خلاصه داده‌ی فعلی">
-          <Metric label="آخرین T10Y2Y" value={data.latest_observation ? `${toFaNumber(data.latest_observation.value)}٪` : '—'} hint="۱۰ساله منهای ۲ساله" />
-          <Metric label="تاریخ مشاهده" value={toFaDate(data.latest_observation?.date ?? null)} hint="تاریخ اقتصادی، بدون تبدیل timezone" />
-          <Metric label="نسخه مدل" value={data.model_version} hint={`قرارداد داده ${data.schema_version}`} />
-          <Metric label="آخرین ساخت" value={new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(data.generated_at_utc))} hint="زمان محلی دستگاه" />
+        <section className="metrics-grid" aria-label="Current data summary">
+          <Metric label="Latest T10Y2Y" value={data.latest_observation ? `${formatNumber(data.latest_observation.value)}%` : '—'} hint="10-year minus 2-year Treasury yield" />
+          <Metric label="Observation date" value={formatDate(data.latest_observation?.date ?? null)} hint="Economic date, without timezone conversion" />
+          <Metric label="Model version" value={data.model_version} hint={`Data contract ${data.schema_version}`} />
+          <Metric label="Last generated" value={new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(data.generated_at_utc))} hint="Your device's local time" />
         </section>
 
         <section className="drivers-section">
-          <div className="section-heading"><div><p className="eyebrow">توضیح‌پذیری</p><h2>چرا این وضعیت نمایش داده می‌شود؟</h2></div><p>سه عامل اصلی امتیاز فعلی</p></div>
+          <div className="section-heading"><div><p className="eyebrow">Explainability</p><h2>Why is this state showing?</h2></div><p>The three main drivers of the current score</p></div>
           <div className="drivers-grid">
             {data.drivers.map((driver, index) => (
-              <article className="driver-card" key={driver.title_fa}>
-                <span className="driver-index">۰{index + 1}</span>
-                <h3>{driver.title_fa}</h3><strong>{driver.value}</strong><p>{driver.detail_fa}</p>
+              <article className="driver-card" key={driver.title_en}>
+                <span className="driver-index">0{index + 1}</span>
+                <h3>{driver.title_en}</h3><strong>{driver.value}</strong><p>{driver.detail_en}</p>
               </article>
             ))}
           </div>
         </section>
 
         <section className="chart-card" id="history">
-          <div className="section-heading"><div><p className="eyebrow">نمای تاریخی</p><h2>اختلاف بازده ۱۰ساله و ۲ساله</h2></div><p>ناحیه‌های هاشورخورده: دوره‌های رکود `USREC`</p></div>
+          <div className="section-heading"><div><p className="eyebrow">Historical view</p><h2>10-year minus 2-year Treasury spread</h2></div><p>Hatched areas: `USREC` recession periods</p></div>
           <HistoryChart data={data} />
-          <p className="chart-note">عبور از صفر به‌تنهایی به معنی شروع فوری رکود نیست. برای بررسی جزئیات، روی نمودار حرکت یا بازه را جابه‌جا کنید.</p>
+          <p className="chart-note">Crossing zero does not mean a recession starts immediately. Hover over the chart or move the range control to explore the history.</p>
         </section>
 
         <section className="zones-section" aria-labelledby="zones-title">
-          <div className="section-heading"><div><p className="eyebrow">راهنمای نشانگر</p><h2 id="zones-title">معنای ناحیه‌های امتیاز</h2></div></div>
+          <div className="section-heading"><div><p className="eyebrow">Gauge guide</p><h2 id="zones-title">What the score zones mean</h2></div></div>
           <div className="zones-grid">
             {SCORE_ZONES.map((zone) => <div className={`zone ${zone.className}`} key={zone.range}><span>{zone.range}</span><strong>{zone.label}</strong></div>)}
           </div>
@@ -285,33 +286,33 @@ function App() {
 
         <section className="method-grid" id="method">
           <article className="method-card">
-            <p className="eyebrow">بک‌تست اولیه</p><h2>کارنامه‌ی توصیفی مدل</h2>
+            <p className="eyebrow">Initial backtest</p><h2>Descriptive model record</h2>
             <div className="backtest-grid">
-              <Metric label="وارونگی‌ها" value={toFaNumber(data.backtest.inversion_events, 0)} />
-              <Metric label="بازگشت‌ها" value={toFaNumber(data.backtest.re_steepening_events, 0)} />
-              <Metric label="Precision" value={data.backtest.precision === null ? '—' : `${toFaNumber(data.backtest.precision * 100, 1)}٪`} />
-              <Metric label="Recall" value={data.backtest.recall === null ? '—' : `${toFaNumber(data.backtest.recall * 100, 1)}٪`} />
+              <Metric label="Inversions" value={formatNumber(data.backtest.inversion_events, 0)} />
+              <Metric label="Re-steepenings" value={formatNumber(data.backtest.re_steepening_events, 0)} />
+              <Metric label="Precision" value={data.backtest.precision === null ? '—' : `${formatNumber(data.backtest.precision * 100, 1)}%`} />
+              <Metric label="Recall" value={data.backtest.recall === null ? '—' : `${formatNumber(data.backtest.recall * 100, 1)}%`} />
             </div>
-            <p className="method-note">{data.backtest.note_fa}</p>
+            <p className="method-note">{data.backtest.note_en}</p>
           </article>
           <article className="method-card sources-card">
-            <p className="eyebrow">شفافیت</p><h2>منابع و روش</h2>
-            <p>امتیاز از میانگین پنج مشاهده و چهار رژیم قاعده‌محور ساخته می‌شود. `USREC` فقط برای نمایش و ارزیابی تاریخی است.</p>
+            <p className="eyebrow">Transparency</p><h2>Sources and method</h2>
+            <p>The score uses a five-observation average and four rule-based regimes. `USREC` is used only for visualization and historical evaluation.</p>
             <ul>{data.sources.map((source) => <li key={source.series_id}><a href={source.url} target="_blank" rel="noreferrer">{source.series_id} — {source.title}</a></li>)}</ul>
-            <a className="method-link" href="https://fred.stlouisfed.org/docs/api/fred/series_observations.html" target="_blank" rel="noreferrer">مستندات رسمی FRED API ↗</a>
+            <a className="method-link" href="https://fred.stlouisfed.org/docs/api/fred/series_observations.html" target="_blank" rel="noreferrer">Official FRED API documentation ↗</a>
           </article>
         </section>
 
-        <section className="disclaimer" aria-label="سلب مسئولیت">
-          <strong>یادآوری مهم</strong>
+        <section className="disclaimer" aria-label="Disclaimer">
+          <strong>Important</strong>
           <div>
-            <p>این داشبورد ابزار آموزشی و تصمیم‌یار است؛ توصیه‌ی سرمایه‌گذاری، تضمین سود یا پیش‌بینی قطعی تاریخ رکود نیست.</p>
-            <p lang="en" dir="ltr">This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.</p>
+            <p>This dashboard is an educational decision-support tool. It is not investment advice, a profit guarantee, or a certain forecast of a recession date.</p>
+            <p>This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.</p>
           </div>
         </section>
       </main>
 
-      <footer><span>رادار چرخه اقتصاد</span><span>اول صحت و توضیح‌پذیری، بعد پیچیدگی مدل.</span></footer>
+      <footer><span>Economic Cycle Radar</span><span>Accuracy and explainability before model complexity.</span></footer>
     </div>
   )
 }

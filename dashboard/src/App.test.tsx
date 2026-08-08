@@ -8,7 +8,7 @@ const fixtureSample = {
   data_mode: 'fixture' as const,
   state: 're_steepening' as const,
   score: 85,
-  phase: 'ریسک بسیار بالا / تنش اقتصادی',
+  phase: 'Very high risk / economic stress',
 }
 
 vi.mock('echarts-for-react', () => ({
@@ -20,11 +20,11 @@ describe('dashboard', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => fixtureSample }))
   })
 
-  it('renders the Persian signal and fixture warning', async () => {
+  it('renders the English signal and fixture warning', async () => {
     render(<App />)
-    await waitFor(() => expect(screen.getByText('اقتصاد در کدام فاز قرار دارد؟')).toBeInTheDocument())
-    expect(screen.getByText(/نسخه‌ی آزمایشی/)).toBeInTheDocument()
-    expect(screen.getByText('بازگشت از وارونگی')).toBeInTheDocument()
-    expect(screen.getByText(/توصیه‌ی سرمایه‌گذاری/)).toBeInTheDocument()
+    await waitFor(() => expect(screen.getByText('Where is the economy in the cycle?')).toBeInTheDocument())
+    expect(screen.getByText(/Fixture preview/)).toBeInTheDocument()
+    expect(screen.getByText('Re-steepening after inversion')).toBeInTheDocument()
+    expect(screen.getByText(/not investment advice/)).toBeInTheDocument()
   })
 })

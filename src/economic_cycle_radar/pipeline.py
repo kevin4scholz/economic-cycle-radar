@@ -11,41 +11,44 @@ from .models import DashboardPayload, Driver, LatestObservation, SourceInfo
 from .scoring import compute_signal_history, freshness, phase_for_score, score_change_7d
 
 STATE_LABELS = {
-    "insufficient_data": "داده‌ی کافی وجود ندارد",
-    "normal": "منحنی عادی است",
-    "flattening": "منحنی در حال تخت‌شدن است",
-    "inverted": "منحنی وارونه است",
-    "re_steepening": "بازگشت از وارونگی ثبت شده است",
-    "data_stale": "داده قدیمی است",
-    "fetch_failed": "دریافت داده ناموفق بود",
+    "insufficient_data": "there is not enough valid data",
+    "normal": "the yield curve is normal",
+    "flattening": "the yield curve is flattening",
+    "inverted": "the yield curve is inverted",
+    "re_steepening": "the curve has re-steepened after inversion",
+    "data_stale": "the latest data is stale",
+    "fetch_failed": "the data fetch failed",
 }
 
 
 def _drivers(state: str, average: float | None, confidence: str) -> list[Driver]:
-    average_text = "ناموجود" if average is None else f"{average:.2f}٪"
+    average_text = "Unavailable" if average is None else f"{average:.2f}%"
     state_details = {
-        "normal": "فاصله‌ی ۱۰ساله و ۲ساله بالاتر از آستانه‌ی ۰٫۵ است.",
-        "flattening": "فاصله مثبت اما کمتر از ۰٫۵ است و باید روند آن پایش شود.",
-        "inverted": "میانگین پنج‌روزه زیر صفر است؛ این هشدار فوری رکود نیست.",
-        "re_steepening": "پس از وارونگی پایدار، منحنی دوباره مثبت شده است.",
-        "data_stale": "به‌علت کهنگی داده، امتیاز فعلی منتشر نمی‌شود.",
-        "insufficient_data": "کمتر از پنج مشاهده‌ی معتبر برای محاسبه وجود دارد.",
+        "normal": "The 10-year minus 2-year spread is at or above the 0.50 threshold.",
+        "flattening": "The spread is positive but below 0.50 and should be monitored.",
+        "inverted": (
+            "The five-observation average is below zero; this is not an immediate "
+            "recession call."
+        ),
+        "re_steepening": "The curve turned non-negative again after a sustained inversion.",
+        "data_stale": "The current score is withheld because the latest observation is stale.",
+        "insufficient_data": "Fewer than five valid observations are available.",
     }
     return [
         Driver(
-            title_fa="میانگین پنج مشاهده",
+            title_en="Five-observation average",
             value=average_text,
-            detail_fa="نوسان روزانه با میانگین پنج مشاهده هموار شده است.",
+            detail_en="Daily volatility is smoothed with the five most recent valid observations.",
         ),
         Driver(
-            title_fa="رژیم منحنی بازده",
+            title_en="Yield-curve regime",
             value=STATE_LABELS.get(state, state),
-            detail_fa=state_details.get(state, "وضعیت فعلی از قواعد نسخه‌ی MVP استخراج شده است."),
+            detail_en=state_details.get(state, "The current state is derived from the MVP rules."),
         ),
         Driver(
-            title_fa="کیفیت و تازگی",
-            value={"high": "بالا", "medium": "متوسط", "unavailable": "ناموجود"}[confidence],
-            detail_fa="تازگی فقط کیفیت داده را نشان می‌دهد، نه قطعیت پیش‌بینی را.",
+            title_en="Quality and freshness",
+            value={"high": "High", "medium": "Medium", "unavailable": "Unavailable"}[confidence],
+            detail_en="Freshness describes data quality, not forecasting certainty.",
         ),
     ]
 
@@ -81,15 +84,15 @@ def build_payload(
 
     if state == "data_stale":
         explanation = (
-            "آخرین داده بیش از ۱۰ روز با تاریخ ارزیابی فاصله دارد؛ "
-            "امتیاز نمایش داده نمی‌شود."
+            "The latest observation is more than 10 calendar days old, so the current score "
+            "is not displayed."
         )
     elif latest is None or latest.score is None:
-        explanation = "برای محاسبه‌ی سیگنال به حداقل پنج مشاهده‌ی معتبر نیاز است."
+        explanation = "At least five valid observations are required to calculate the signal."
     else:
         explanation = (
-            f"بر اساس میانگین پنج مشاهده، {STATE_LABELS[state]}. "
-            "این عدد شدت سیگنال است، نه احتمال قطعی رکود."
+            f"Based on the five-observation average, {STATE_LABELS[state]}. "
+            "This score measures signal intensity; it is not a certain recession probability."
         )
 
     return DashboardPayload(
@@ -100,7 +103,7 @@ def build_payload(
         state=state,
         score_change_7d=None if score is None else score_change_7d(points),
         confidence=confidence,
-        explanation_fa=explanation,
+        explanation_en=explanation,
         latest_observation=latest_observation,
         drivers=_drivers(state, average, confidence),
         spread_history=points,

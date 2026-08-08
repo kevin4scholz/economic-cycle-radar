@@ -1,5 +1,5 @@
 :root {
-  font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+  font-family: "Manrope Variable", Manrope, "Segoe UI", sans-serif;
   color: #eef5fb;
   background: #07111f;
   font-synthesis: none;
@@ -17,7 +17,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--bg); }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--bg); letter-spacing: -.01em; }
 body::before {
   content: "";
   position: fixed;
@@ -45,10 +45,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .brand-mark {
   width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center;
   color: #07111f; background: linear-gradient(135deg, var(--teal), var(--sky));
-  font-family: Georgia, serif; font-weight: 900; font-size: 25px; box-shadow: 0 10px 30px #2dc9a528;
+  font-family: "Manrope Variable", sans-serif; font-weight: 850; font-size: 25px; box-shadow: 0 10px 30px #2dc9a528;
 }
 .brand strong, .brand small { display: block; }
-.brand strong { font-size: 15px; }
+.brand strong { font-size: 15px; font-weight: 750; letter-spacing: -.03em; }
 .brand small { color: var(--muted); font-size: 10px; letter-spacing: .4px; margin-top: 3px; }
 nav { display: flex; gap: 30px; }
 nav a { color: #b9c8d7; text-decoration: none; font-size: 13px; transition: color .2s; }
@@ -57,15 +57,15 @@ nav a:hover, nav a:focus-visible { color: #fff; }
   justify-self: end; border: 1px solid #2a4b65; padding: 8px 13px; border-radius: 999px;
   color: #cbd9e6; background: #0c1b2a; font-size: 11px;
 }
-.data-pill::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-left: 7px; background: var(--teal); }
+.data-pill::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; background: var(--teal); }
 .data-pill.medium::before { background: var(--amber); }
 .data-pill.unavailable::before { background: var(--red); }
 
 .demo-banner { margin-top: 22px; padding: 11px 16px; border: 1px solid #8b652d; border-radius: 12px; color: #ffdda5; background: #3b2c1838; font-size: 12px; }
 .hero { min-height: 590px; display: grid; grid-template-columns: 1fr minmax(480px, .9fr); gap: 70px; align-items: center; padding: 78px 0 58px; }
 .eyebrow { color: var(--teal); font-size: 11px; font-weight: 800; letter-spacing: 1.2px; margin: 0 0 14px; text-transform: uppercase; }
-.hero h1 { font-size: clamp(38px, 5vw, 72px); line-height: 1.15; letter-spacing: -2px; max-width: 750px; margin: 0; }
-.lead { color: #afc0d0; font-size: 18px; line-height: 2; max-width: 650px; margin: 24px 0 28px; }
+.hero h1 { font-size: clamp(38px, 5vw, 72px); line-height: 1.04; letter-spacing: -.055em; font-weight: 760; max-width: 750px; margin: 0; text-wrap: balance; }
+.lead { color: #afc0d0; font-size: 18px; line-height: 1.7; max-width: 650px; margin: 24px 0 28px; }
 .signal-label { display: flex; align-items: center; gap: 13px; margin: 18px 0; }
 .signal-label small, .signal-label strong { display: block; }
 .signal-label small { color: var(--muted); font-size: 11px; margin-bottom: 3px; }
@@ -74,7 +74,7 @@ nav a:hover, nav a:focus-visible { color: #fff; }
 .state-normal { background: var(--teal); }
 .state-inverted { background: #ef8c45; }
 .state-re_steepening { background: var(--red); }
-.explanation { color: #91a7bb; line-height: 1.9; max-width: 650px; font-size: 13px; border-right: 2px solid #29465f; padding-right: 13px; }
+.explanation { color: #91a7bb; line-height: 1.8; max-width: 650px; font-size: 13px; border-left: 2px solid #29465f; padding-left: 13px; }
 
 .gauge-card, .chart-card, .method-card {
   background: linear-gradient(145deg, #0e2134e8, #0a1725e8);
@@ -94,10 +94,10 @@ nav a:hover, nav a:focus-visible { color: #fff; }
 .no-score span { max-width: 280px; line-height: 1.7; }
 
 .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid #183047; margin-bottom: 92px; }
-.metric { min-height: 112px; padding: 24px 28px; border-left: 1px solid #183047; display: flex; flex-direction: column; justify-content: center; }
-.metric:last-child { border-left: 0; }
+.metric { min-height: 112px; padding: 24px 28px; border-right: 1px solid #183047; display: flex; flex-direction: column; justify-content: center; }
+.metric:last-child { border-right: 0; }
 .metric span { color: var(--muted); font-size: 11px; }
-.metric strong { margin-top: 8px; font-size: 21px; direction: ltr; text-align: right; }
+.metric strong { margin-top: 8px; font-size: 21px; direction: ltr; text-align: left; font-variant-numeric: tabular-nums; }
 .metric small { color: #6f879d; font-size: 9px; margin-top: 6px; line-height: 1.5; }
 
 .drivers-section, .zones-section { margin-bottom: 92px; }
@@ -106,8 +106,8 @@ nav a:hover, nav a:focus-visible { color: #fff; }
 .section-heading > p { color: var(--muted); font-size: 11px; }
 .drivers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .driver-card { position: relative; min-height: 240px; padding: 30px; border: 1px solid #1c374f; border-radius: 18px; background: #0b1a29a8; overflow: hidden; }
-.driver-card::after { content: ""; position: absolute; left: -36px; bottom: -45px; width: 120px; height: 120px; border-radius: 50%; background: #2dc9a50e; }
-.driver-index { color: var(--teal); font-family: Georgia, serif; font-size: 13px; }
+.driver-card::after { content: ""; position: absolute; right: -36px; bottom: -45px; width: 120px; height: 120px; border-radius: 50%; background: #2dc9a50e; }
+.driver-index { color: var(--teal); font-family: "Manrope Variable", sans-serif; font-size: 13px; font-weight: 750; }
 .driver-card h3 { color: var(--muted); font-size: 12px; font-weight: 500; margin: 34px 0 8px; }
 .driver-card strong { font-size: 22px; }
 .driver-card p { color: #8da3b7; font-size: 12px; line-height: 1.9; margin-top: 18px; }
@@ -115,11 +115,11 @@ nav a:hover, nav a:focus-visible { color: #fff; }
 .chart-card { padding: 32px; margin-bottom: 92px; }
 .chart-note { color: #8299ad; font-size: 11px; line-height: 1.8; margin: 18px 0 0; padding-top: 16px; border-top: 1px solid #20384e; }
 .zones-grid { display: grid; grid-template-columns: repeat(5, 1fr); overflow: hidden; border: 1px solid #1d374e; border-radius: 15px; }
-.zone { min-height: 105px; display: flex; flex-direction: column; justify-content: center; padding: 19px; border-left: 1px solid #1d374e; position: relative; background: #0c1b2a; }
-.zone:last-child { border-left: 0; }
+.zone { min-height: 105px; display: flex; flex-direction: column; justify-content: center; padding: 19px; border-right: 1px solid #1d374e; position: relative; background: #0c1b2a; }
+.zone:last-child { border-right: 0; }
 .zone::before { content: ""; position: absolute; top: 0; right: 0; left: 0; height: 4px; background: var(--teal); }
 .zone-watch::before { background: #77b98c; }.zone-caution::before { background: #d8b44c; }.zone-warning::before { background: #ef8c45; }.zone-high::before { background: var(--red); }
-.zone span { color: var(--muted); font-size: 10px; direction: ltr; text-align: right; }
+.zone span { color: var(--muted); font-size: 10px; direction: ltr; text-align: left; font-variant-numeric: tabular-nums; }
 .zone strong { margin-top: 7px; font-size: 13px; }
 
 .method-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; margin-bottom: 64px; }
@@ -169,13 +169,13 @@ footer { min-height: 90px; display: flex; justify-content: space-between; align-
   .lead { font-size: 15px; }
   .gauge-card { padding: 17px 13px; border-radius: 18px; }
   .metrics-grid { grid-template-columns: 1fr; margin-bottom: 65px; }
-  .metric { border-left: 0; border-bottom: 1px solid #183047; padding-inline: 12px; }
+  .metric { border-right: 0; border-bottom: 1px solid #183047; padding-inline: 12px; }
   .metric:last-child { border-bottom: 0; }
   .section-heading { align-items: flex-start; flex-direction: column; }
   .section-heading h2 { font-size: 22px; }
   .chart-card { padding: 20px 8px; margin-inline: -5px; }
   .zones-grid { grid-template-columns: 1fr; }
-  .zone { min-height: 70px; border-left: 0; border-bottom: 1px solid #1d374e; }
+  .zone { min-height: 70px; border-right: 0; border-bottom: 1px solid #1d374e; }
   .backtest-grid { grid-template-columns: repeat(2, 1fr); }
   .method-card { padding: 24px 18px; }
   .disclaimer { grid-template-columns: 1fr; gap: 12px; }

@@ -26,7 +26,7 @@ class FredClient:
         transport: Any | None = None,
     ) -> None:
         if not api_key.strip():
-            raise FredError("FRED_API_KEY تنظیم نشده است.")
+            raise FredError("FRED_API_KEY is not configured.")
         self.api_key = api_key.strip()
         self.timeout_seconds = timeout_seconds
         self.max_attempts = max_attempts
@@ -50,7 +50,7 @@ class FredClient:
                 if attempt < self.max_attempts:
                     time.sleep(0.25 * (2 ** (attempt - 1)))
         raise FredError(
-            f"دریافت داده از FRED پس از {self.max_attempts} تلاش ناموفق بود."
+            f"FRED data fetch failed after {self.max_attempts} attempts."
         ) from None
 
     def fetch_series(self, series_id: str) -> SeriesData:
@@ -58,7 +58,7 @@ class FredClient:
         observations_payload = self._get("series/observations", {"series_id": series_id})
         series_items = metadata_payload.get("seriess", [])
         if not series_items:
-            raise FredError(f"فراداده‌ی سری {series_id} در پاسخ FRED موجود نیست.")
+            raise FredError(f"Series metadata for {series_id} is missing from the FRED response.")
         return parse_fred_payload(series_id, series_items[0], observations_payload)
 
 

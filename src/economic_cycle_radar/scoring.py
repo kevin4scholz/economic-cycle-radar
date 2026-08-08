@@ -95,13 +95,13 @@ def score_change_7d(points: list[SignalPoint]) -> int | None:
 
 def phase_for_score(score: int | None) -> str:
     if score is None:
-        return "داده در دسترس نیست"
+        return "Data unavailable"
     if score <= 20:
-        return "رونق / ریسک پایین"
+        return "Expansion / low risk"
     if score <= 40:
-        return "رشد با نشانه‌های کندشدن"
+        return "Growth with signs of slowing"
     if score <= 60:
-        return "احتیاط / سیگنال‌های متناقض"
+        return "Caution / mixed signals"
     if score <= 80:
-        return "هشدار رکود"
-    return "ریسک بسیار بالا / تنش اقتصادی"
+        return "Recession warning"
+    return "Very high risk / economic stress"

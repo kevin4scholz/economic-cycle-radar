@@ -1,20 +1,21 @@
-# رادار چرخه اقتصاد
+# Economic Cycle Radar
 
-داشبورد فارسی و توضیح‌پذیر برای پایش سیگنال چرخه‌ی اقتصاد آمریکا. نسخه‌ی MVP از سری `T10Y2Y` برای امتیاز قاعده‌محور و از `USREC` برای نمایش دوره‌های تاریخی رکود استفاده می‌کند.
+An explainable English dashboard for monitoring the US economic cycle. The MVP uses `T10Y2Y` as its single rule-based scoring input and `USREC` to display and evaluate official historical recession periods.
 
-> این پروژه ابزار آموزشی و تصمیم‌یار است. امتیاز آن احتمال قطعی رکود، توصیه‌ی سرمایه‌گذاری یا دستور معامله نیست.
+> This project is an educational decision-support tool. Its score is not a certain recession probability, investment advice, or a trading instruction.
 
-## وضعیت نسخه‌ی MVP
+## MVP status
 
-- افق تحلیل: ۱۲ ماه
-- مدل: `mvp-rule-v1`
-- منبع: FRED / Federal Reserve Bank of St. Louis
-- رابط: فارسی، RTL و واکنش‌گرا
-- خروجی عمومی: `dashboard/public/data/dashboard-data.json`
+- Analysis horizon: 12 months
+- Model: `mvp-rule-v1`
+- Data source: FRED / Federal Reserve Bank of St. Louis
+- Interface: English, LTR, responsive, and accessible
+- Public payload: `dashboard/public/data/dashboard-data.json`
+- Live dashboard: [kevin4scholz.github.io/economic-cycle-radar](https://kevin4scholz.github.io/economic-cycle-radar/)
 
-## اجرای محلی با داده‌ی نمونه
+## Run locally with fixture data
 
-پیش‌نیازها در `pyproject.toml` و `dashboard/package.json` ثبت شده‌اند. پس از نصب وابستگی‌ها:
+Dependencies are declared in `pyproject.toml` and `dashboard/package.json`. After installing them:
 
 ```powershell
 python -m economic_cycle_radar.cli `
@@ -26,13 +27,13 @@ cd dashboard
 pnpm dev
 ```
 
-داده‌ی نمونه فقط برای توسعه و آزمون است و در خروجی با `data_mode: fixture` مشخص می‌شود.
+Fixture output is for development and testing only and is identified by `data_mode: fixture`.
 
-## اجرای زنده
+## Run with live data
 
-1. فایل `.env.example` را به `.env` کپی کنید.
-2. مقدار `FRED_API_KEY` را شخصاً وارد کنید؛ آن را در گفتگو یا commit قرار ندهید.
-3. متغیر محیطی را در ترمینال بارگذاری و اجرا کنید:
+1. Copy `.env.example` to `.env`.
+2. Enter `FRED_API_KEY` locally. Never paste it into chat or commit it.
+3. Load the environment variable and run:
 
 ```powershell
 python -m economic_cycle_radar.cli `
@@ -40,21 +41,23 @@ python -m economic_cycle_radar.cli `
   --raw-dir data/raw
 ```
 
-اگر کلید موجود نباشد یا دریافت داده شکست بخورد، فرمان با خطا متوقف می‌شود و فایل خروجی قبلی را بازنویسی نمی‌کند.
+If the key is missing or the fetch fails, the command exits with an error and does not overwrite the previous output.
 
-## آزمون و ساخت
+## Test and build
 
 ```powershell
 pytest
 ruff check .
 cd dashboard
 pnpm test --run
+pnpm lint
 pnpm build
 ```
 
-روش محاسبه و محدودیت‌ها در [docs/methodology.md](docs/methodology.md) آمده است.
+See [docs/methodology.md](docs/methodology.md) for the scoring method and limitations.
 
-## انتشار
+## Contribution workflow
 
-Workflowهای GitHub Actions آماده‌اند، اما انتشار عمومی به‌طور پیش‌فرض خاموش است. پس از عمومی‌شدن مخزن و تأیید مهرشاد، Repository Variable با نام `ENABLE_PAGES` روی `true` تنظیم و GitHub Pages روی Actions فعال می‌شود. کلید FRED فقط در Secret با نام `FRED_API_KEY` قرار می‌گیرد.
+All changes use an `agent/*` feature branch, focused tests, an intentional commit, a push, and a Draft Pull Request into `main`. Do not commit directly to `main`.
 
+GitHub Actions runs CI on each push and Pull Request. The scheduled dashboard workflow fetches fresh FRED data, validates it, builds the site, and deploys through GitHub Pages when `ENABLE_PAGES=true`. The FRED key remains only in the `FRED_API_KEY` Actions secret.

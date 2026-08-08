@@ -24,9 +24,8 @@ def test_freshness_boundaries():
 
 
 def test_phase_boundaries():
-    assert phase_for_score(20) == "رونق / ریسک پایین"
-    assert phase_for_score(40) == "رشد با نشانه‌های کندشدن"
-    assert phase_for_score(60) == "احتیاط / سیگنال‌های متناقض"
-    assert phase_for_score(80) == "هشدار رکود"
-    assert phase_for_score(81) == "ریسک بسیار بالا / تنش اقتصادی"
-
+    assert phase_for_score(20) == "Expansion / low risk"
+    assert phase_for_score(40) == "Growth with signs of slowing"
+    assert phase_for_score(60) == "Caution / mixed signals"
+    assert phase_for_score(80) == "Recession warning"
+    assert phase_for_score(81) == "Very high risk / economic stress"
